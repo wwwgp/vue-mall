@@ -14,41 +14,7 @@ export default {
 components: {},
 data() {
       return {
-        data: [{
-          label: '一级 1',
-          children: [{
-            label: '二级 1-1',
-            children: [{
-              label: '三级 1-1-1'
-            }]
-          }]
-        }, {
-          label: '一级 2',
-          children: [{
-            label: '二级 2-1',
-            children: [{
-              label: '三级 2-1-1'
-            }]
-          }, {
-            label: '二级 2-2',
-            children: [{
-              label: '三级 2-2-1'
-            }]
-          }]
-        }, {
-          label: '一级 3',
-          children: [{
-            label: '二级 3-1',
-            children: [{
-              label: '三级 3-1-1'
-            }]
-          }, {
-            label: '二级 3-2',
-            children: [{
-              label: '三级 3-2-1'
-            }]
-          }]
-        }],
+        data: [],
         defaultProps: {
           children: 'children',
           label: 'label'
@@ -59,10 +25,22 @@ data() {
 computed: {},
 //监控data中的数据变化
 watch: {},
+activated() {
+  this.getMenu();
+}, //如果页面有keep-alive缓存功能，这个函数会触发
 //方法集合
 methods: {
   handleNodeClick(data) {
         console.log(data);
+      },
+          // 获取数据列表
+      getMenu () {
+        this.$http({
+          url: this.$http.adornUrl('/product/category/list/tree'),
+          method: 'get'
+          }).then(datad =>{
+              console.log("成功打印",datad)
+          })
       }
 },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -79,7 +57,7 @@ beforeUpdate() {}, //生命周期 - 更新之前
 updated() {}, //生命周期 - 更新之后
 beforeDestroy() {}, //生命周期 - 销毁之前
 destroyed() {}, //生命周期 - 销毁完成
-activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+
 
 }
 </script>
